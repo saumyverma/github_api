@@ -17,17 +17,17 @@ class App extends Component {
     return "this is mu function1";
   }
   async componentDidMount() {
-    console.log(process.env.TEST_CLIENT_IS);
+    // console.log(process.env.REACT_APP_GITHUB_CLIENT_SECRET);
     this.setState({ loading: true });
-    const res = await axios.get('https://api.github.com/users');
-    console.log(res.data);
+    const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    // console.log(res.data);
     this.setState({ users: res.data, loading: false })
   }
   SearchUsers = async (text) => {
-    console.log("app" + text);
+    // console.log("app" + text);
     const res = await axios.get(`https://api.github.com/search/users?q=${text}`);
     console.log(`https://api.github.com/search/users?q=${text}`);
-    console.log(res.data.items);
+    // console.log(res.data.items);
     this.setState({ users: res.data.items, loading: false })
   }
 

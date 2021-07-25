@@ -5,13 +5,15 @@ import Menu from "./components/Menu";
 import Users from "./components/users/Users";
 import axios from 'axios';
 import Search from './components/users/Search'
+import Alert from './components/layout/Alert';
 // import { Test } from "./components/Test";
 
 
 class App extends Component {
   state = {
     users: [],
-    loading: false
+    loading: false,
+    alert: null
   }
   myfunction1 = () => {
     return "this is mu function1";
@@ -31,13 +33,19 @@ class App extends Component {
     this.setState({ users: res.data.items, loading: false })
   }
 
+  setAlert = (msg, type) => {
+    this.setState({ alert: { msg, type } });
+    setTimeout(() => { this.setState({ alert: null }) }, 5000);
+  }
+
   render() {
 
     return (
 
       <React.Fragment>
         <Menu title="" />
-        <Search SearchUsers={this.SearchUsers} />
+        <Alert alert={this.state.alert} />
+        <Search SearchUsers={this.SearchUsers} setAlert={this.setAlert} />
         {/* <Test/> */}
         <div className="container">
           <div className="row">

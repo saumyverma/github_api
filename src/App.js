@@ -1,11 +1,13 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import React, { Component } from 'react';
-import Menu from "./components/Menu";
+import React, { Component, Fregment } from 'react';
+import Menu from "./components/layout/Menu";
 import Users from "./components/users/Users";
 import axios from 'axios';
 import Search from './components/users/Search'
 import Alert from './components/layout/Alert';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import About from './components/pages/About';
 // import { Test } from "./components/Test";
 
 
@@ -41,21 +43,40 @@ class App extends Component {
   render() {
 
     return (
+      <Router>
+        <React.Fragment>
 
-      <React.Fragment>
-        <Menu title="" />
-        <Alert alert={this.state.alert} />
-        <Search SearchUsers={this.SearchUsers} setAlert={this.setAlert} />
-        {/* <Test/> */}
-        <div className="container">
-          <div className="row">
-            <Users loading={this.state.loading} all_users={this.state.users} />
+          <Menu title="" />
+          <Alert alert={this.state.alert} />
+
+          <switch>
+            {/* first route or default route */}
+            <Route exact path='/'>
+              <Search SearchUsers={this.SearchUsers} setAlert={this.setAlert} />
+              <div className="container">
+                <div className="row">
+                  <Users loading={this.state.loading} all_users={this.state.users} />
+                </div>
+              </div>
+            </Route>
+            {/* second route */}
+            <Route path='/about'>
+              <About />
+            </Route>
+
+          </switch>
+
+
+
+
+
+          <div>
+            {/* <h1>This is my first heading {`${this.myfunction1()} ${myfunction2()}`}</h1> */}
           </div>
-        </div>
-        <div>
-          {/* <h1>This is my first heading {`${this.myfunction1()} ${myfunction2()}`}</h1> */}
-        </div>
-      </React.Fragment>
+
+
+        </React.Fragment>
+      </Router>
     )
   }
 }

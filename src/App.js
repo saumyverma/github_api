@@ -8,12 +8,16 @@ import Search from './components/users/Search'
 import Alert from './components/layout/Alert';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import About from './components/pages/About';
-// import { Test } from "./components/Test";
+import Contact from './components/pages/Contact';
 
+import User from './components/users/User';
+// import { Test } from "./components/Test";
+// lession 19
 
 class App extends Component {
   state = {
     users: [],
+    user: null,
     loading: false,
     alert: null
   }
@@ -40,6 +44,14 @@ class App extends Component {
     setTimeout(() => { this.setState({ alert: null }) }, 5000);
   }
 
+  //get single user info from Github api
+  getUser = async (username) => {
+    // alert(username);
+    const userInfo = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    this.setState({ user: userInfo.data });
+    console.log(this.state.user);
+  }
+
   render() {
 
     return (
@@ -49,7 +61,7 @@ class App extends Component {
           <Menu title="" />
           <Alert alert={this.state.alert} />
 
-          <switch>
+          <Switch>
             {/* first route or default route */}
             <Route exact path='/'>
               <Search SearchUsers={this.SearchUsers} setAlert={this.setAlert} />
@@ -63,8 +75,24 @@ class App extends Component {
             <Route path='/about'>
               <About />
             </Route>
+            <Route exact path='/contact'>
+              <Contact />
+            </Route>
 
-          </switch>
+            {/* <Route exact path='/user/:login'>
+              <User getUser={this.getUser} user={this.state.user} />
+            </Route> */}
+
+            <Route exact path='/user/:login'
+              render={props => (
+
+                <User {...props} getUser={this.getUser} user={this.state.user} />
+              )}
+            >
+
+            </Route>
+
+          </Switch>
 
 
 
